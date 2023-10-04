@@ -16,6 +16,6 @@ svgSCAD tries to address both of these issues.
 # Example
 Here is the source code to build a combination yin-yang image:
 
-https://github.com/SmoothDragon/svgSCAD/blob/main/YinYang.scad
+https://github.com/SmoothDragon/svgSCAD/blob/cc64f2af85b35822ec5a5426c10ca0aca9ecc75b/YinYang.svg.py
 
 ![Alt text](./YinYang.svg)
