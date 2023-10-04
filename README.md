@@ -2,7 +2,7 @@
 Build colored SVGs with units using the OpenSCAD 2D subsystem.
 
 # Motivation
-OpenSCAD by itself can expot SVGs of a 2D creation.
+OpenSCAD can export SVGs of a 2D creation.
 However, the default output is lightgray with a black border.
 Furthermore, there are no units associated with the output SVG.
 
