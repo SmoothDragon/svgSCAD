@@ -13,8 +13,9 @@ For SVG images, colors are part of the aesthetic.
 
 svgSCAD tries to address both of these issues.
 
-# TODO
-* Can the SVG be created directly via solidpython?
-* Export with no border and fill color
-* Export only with border. Set border at estimated kerf size.
+# Example
+Here is the source code to build a combination yin-yang image:
 
+
+![Alt text](./YinYang.svg)
+<img src="./YinYang.svg">
