@@ -13,10 +13,12 @@ For SVG images, colors are part of the aesthetic.
 
 svgSCAD tries to address both of these issues.
 
-# Example
+# Example: Yin yang
 Here is the source code to build a combination yin-yang image:
 
 https://github.com/SmoothDragon/svgSCAD/blob/cc64f2af85b35822ec5a5426c10ca0aca9ecc75b/YinYang.svg.py#L1-L24
 
 ![Yin yang](./examples/YinYang.svg)
+
+# Example: Nested Koch snowflakes
 ![Nested Koch snowflakes](./examples/NestedKoch.svg)
