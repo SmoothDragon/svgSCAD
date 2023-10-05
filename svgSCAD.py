@@ -2,7 +2,6 @@
 
 import solid as sd
 import numpy as np
-import XYtools as xy
 import tempfile
 import subprocess
 import shlex
@@ -66,7 +65,7 @@ class scadSVG:
 
     def __add__(self, other):
         xmax = max(self.xmin + self.width, other.xmin + other.width)
-        ymax = max(self.ymin + self.width, other.ymin + other.width)
+        ymax = max(self.ymin + self.height, other.ymin + other.height)
         self.xmin = min(self.xmin, other.xmin)
         self.ymin = min(self.ymin, other.ymin)
         self.width = xmax - self.xmin
@@ -122,6 +121,22 @@ def annulus(R, w, position='center'):
     figure = sd.circle(R_outer)
     figure -= sd.circle(R_inner)
     return figure
+
+def pentagram(R):
+    wedge = sd.square(R)
+    wedge = sd.intersection()(
+                sd.rotate([0,0,18])(wedge),
+                sd.rotate([0,0,72])(wedge),
+                sd.translate([-R/2,0])(wedge),
+                )
+    wedge = sd.translate([0,-R])(wedge)
+    wedge = sd.rotate([0,0,180])(wedge)
+    base = sd.union()(*[sd.rotate([0,0,i*360/pieces])(wedge) for i in range(pieces)])
+
+def hexagram(R):
+    wedge = sd.circle(R, segments=3)
+    wedge += sd.rotate([0,0,180])(wedge),
+    return wedge
 
 if __name__ == '__main__':
     import doctest

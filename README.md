@@ -18,4 +18,5 @@ Here is the source code to build a combination yin-yang image:
 
 https://github.com/SmoothDragon/svgSCAD/blob/cc64f2af85b35822ec5a5426c10ca0aca9ecc75b/YinYang.svg.py#L1-L24
 
-![Alt text](./YinYang.svg)
+![Yin yang](./examples/YinYang.svg)
+![Nested Koch snowflakes](./examples/NestedKoch.svg)
