@@ -2,6 +2,7 @@
 
 import solid as sd
 import numpy as np
+import pathlib
 import tempfile
 import subprocess
 import shlex
@@ -11,11 +12,15 @@ def scad2svg(scad_obj, fn):
     Write and read from temporary files.
     TODO: Is there a way to bypass using tempfiles?
     '''
-    file_scad = tempfile.NamedTemporaryFile(delete=True)
-    file_svg = tempfile.NamedTemporaryFile(delete=True)
+    file_scad = tempfile.NamedTemporaryFile(delete=False)
+    file_svg = tempfile.NamedTemporaryFile(delete=False)
+    # Note that when openscad tries to import_ a SVG file, it will look for it in /tmp
+    # Thus we have to create a symlink to the temp file.
+    tmpfile = pathlib.Path(file_scad.name)
+    tmpname = pathlib.Path(tmpfile.name).symlink_to(tmpfile)
 
     sd.scad_render_to_file(scad_obj, filepath=file_scad.name, file_header=f'$fn={fn};')
-    command = f'openscad --export-format=svg {file_scad.name} -o {file_svg.name}'
+    command = f'openscad --export-format=svg {tmpname} -o {file_svg.name}'
     subprocess.run(shlex.split(command))
     str_svg = open(file_svg.name).read()
     return str_svg
