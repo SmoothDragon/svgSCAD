@@ -7,6 +7,7 @@ Uses svgSCAD package.
 import solid as sd
 import numpy as np
 import svgSCAD as svg
+import itertools
 
 
 def koch_snowflake(R, pieces=6, iterations=3):
@@ -25,28 +26,26 @@ def perimeter(shape, r, segments=6):
     final -= shape
     return final
 
+def ring(R, r, height, twist, slices, scale):
+    koch = koch_snowflake(R, iterations=0)
+    koch = perimeter(koch, r)
+    graphic = sd.linear_extrude(height=10, twist=twist, slices=slices, scale=scale)(koch)
+    graphic += sd.rotate([180,0,0])(graphic)
+    return graphic
 
 if __name__ == '__main__':
-    R = 50
-    scale = 1/np.sqrt(3)
+    R = 62
     fn = 6
     twist = 15
-    slices=10
+    slices=50
     scale=.8
+    gap = 6
+    gaps = [8,7.5,7,6.5,6,5.5,5,4.5,4]
+    drops = itertools.accumulate(gaps, initial=0)
+    # drops = itertools.accumulate(gaps)
 
-    koch = koch_snowflake(R, iterations=0)
-    koch = perimeter(koch, 1)
-    graphic = sd.linear_extrude(height=10, twist=twist, slices=slices, scale=scale)(koch)
-    graphic += sd.mirror([0,0,1])(graphic)
-    koch = koch_snowflake(R-3, iterations=0)
-    koch = perimeter(koch, 1)
-    graphic2 = sd.linear_extrude(height=10, twist=twist, slices=slices, scale=scale)(koch)
-    graphic2 += sd.mirror([0,0,1])(graphic2)
-    koch = koch_snowflake(R-6, iterations=0)
-    koch = perimeter(koch, 1)
-    graphic3 = sd.linear_extrude(height=10, twist=twist, slices=slices, scale=scale)(koch)
-    graphic3 += sd.mirror([0,0,1])(graphic3)
-    final = graphic + graphic2 + graphic3
+    # final = sd.union()(*[ring(R-i*gap, 1.2, height=10, twist=twist, slices=slices, scale=scale) for i in range(8)])
+    final = sd.union()(*[ring(R-drop, 1.2, height=10, twist=twist, slices=slices, scale=scale) for drop in drops])
     final = sd.scad_render(final, file_header=f'$fn={fn};')
     print(final)
 
