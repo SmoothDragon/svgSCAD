@@ -114,6 +114,16 @@ def halfPlane(direction, D=1000):
     plane = sd.translate(planetype[direction])(plane)
     return plane
 
+def sector(angle, r=0, D=1000):
+    R = r/np.tan(angle/2/360*np.pi)/2
+    piece = halfPlane('U', D=D)
+    if r>0:
+        piece -= sd.circle(R)
+    piece = sd.intersection()(piece, sd.rotate([0,0,angle-180])(piece))
+    if r>0:
+        piece += sd.translate([R,r])(sd.circle(r))
+    return piece
+
 def annulus(R, w, position='center'):
     '''Annulus or radius R with line of width w centered on perimeter
     '''
