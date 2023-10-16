@@ -6,6 +6,7 @@
 import solid as sd
 import numpy as np
 import svgSCAD as svg
+import tgd_shapes as tgd
 
 def pentagram(R):
     wedge = sd.square(R)
@@ -56,6 +57,7 @@ if __name__ == '__main__':
 
     unit = 3
     v = sd.cube(unit, center=True)
+    v = tgd.cuboctahedron(unit)
     vz = [list(np.array(x)*R) for x in [[1,1,0],[1,-1,0],[-1,-1,0],[-1,1,0]]]
     vy = [list(np.array(y)*R) for y in [[1,0,1],[1,0,-1],[-1,0,-1],[-1,0,1]]]
     vx = [list(np.array(y)*R) for y in [[0,1,1],[0,1,-1],[0,-1,-1],[0,-1,1]]]
@@ -93,6 +95,7 @@ if __name__ == '__main__':
     outin = path(v, outinp)
     outt = path(v, outint)
     face = outer + inner + outin + outt
+    face += sd.union()(*[edge(v, outinp[i],innerp[i]) for i in range(4)])
     face += sd.union()(*[edge(v, v0, v1) for v0, v1 in zip(outerp, outinp)])
     face += sd.union()(*[edge(v, v0, v1) for v0, v1 in zip(outerp, innerp)])
     face += sd.union()(*[edge(v, v0, v1) for v0, v1 in zip(outint, outsq)])
