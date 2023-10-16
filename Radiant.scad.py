@@ -44,14 +44,17 @@ def stack3(final, R):
     return final
 
 def path(v, L):
-    edges = [sd.hull()(sd.translate(v0)(v), sd.translate(list(v1))(v)) for v0,v1 in zip(L, list(np.roll(L,-1,axis=0)))]
+    edges = [sd.hull()(sd.translate(list(v0))(v), sd.translate(list(v1))(v)) for v0,v1 in zip(L, list(np.roll(L,-1,axis=0)))]
     return edges
+
+def edge(v, v0, v1):
+    return sd.hull()(sd.translate(list(v0))(v), sd.translate(list(v1))(v))
 
 if __name__ == '__main__':
     fn = 64
     R = 50
 
-    unit = 4
+    unit = 3
     v = sd.cube(unit, center=True)
     vz = [list(np.array(x)*R) for x in [[1,1,0],[1,-1,0],[-1,-1,0],[-1,1,0]]]
     vy = [list(np.array(y)*R) for y in [[1,0,1],[1,0,-1],[-1,0,-1],[-1,0,1]]]
@@ -75,6 +78,29 @@ if __name__ == '__main__':
           + sd.union()(*[sd.rotate([0, i*90,0])(final) for i in range(4)])
 
     final = outer + inner
+
+
+    # pyramid
+    R = 50
+    outerp = R*np.array([[1,0,-1],[0,1,-1],[-1,0,-1],[0,-1,-1]])
+    outinp = R*np.array([[1/3,0,-1],[0,1/3,-1],[-1/3,0,-1],[0,-1/3,-1]])
+    outint = R*np.array([[5/6,5/6,-1/3],[5/6,1/3,-5/6],[1/3,5/6,-5/6]])
+    outint = R*np.array([[3/4,3/4,-1/2],[3/4,1/2,-3/4],[1/2,3/4,-3/4]])
+    outsq = R*np.array([[1,1,0],[1,0,-1],[0,1,-1]])
+    innerp = outerp/3
+    outer = path(v, outerp)
+    inner = path(v, innerp)
+    outin = path(v, outinp)
+    outt = path(v, outint)
+    face = outer + inner + outin + outt
+    face += sd.union()(*[edge(v, v0, v1) for v0, v1 in zip(outerp, outinp)])
+    face += sd.union()(*[edge(v, v0, v1) for v0, v1 in zip(outerp, innerp)])
+    face += sd.union()(*[edge(v, v0, v1) for v0, v1 in zip(outint, outsq)])
+    pyramid = sd.union()(*[sd.rotate([i*90,0,0])(face) for i in range(4)]) \
+            + sd.union()(*[sd.rotate([0, i*90,0])(face) for i in range(4)])
+    pyramid += sd.rotate([0,0,90])(pyramid)
+    final = pyramid
+    # final = face
     # print(L)
     # print(list(zip(L, list(np.roll(L,1)))))
     print(sd.scad_render(final, file_header=f'$fn={fn};'))
