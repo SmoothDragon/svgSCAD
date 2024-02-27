@@ -115,6 +115,23 @@ def cuboctahedron(size=50):
     shape = solid.scale([size/2]*3)(shape)
     return shape
 
+def truncated_cuboctahedron(size=50):
+    '''Creates a truncated cuboctahedron
+        1) Centered at the origin
+        2) Oriented as cut from a centered cube
+    '''
+    vertices =  [
+        [1,2,0], [-1,2,0],[-1,-2,0],[1,-2,0],  # point in xy-plane
+        [2,1,0], [-2,1,0],[-2,-1,0],[2,-1,0],  # point in xy-plane
+        [1,0,2], [-2,0,1],[-2,0,-1],[2,0,-1],  # point in xz-plane
+        [2,0,1], [-1,0,2],[-1,0,-2],[1,0,-2],  # point in xz-plane
+        [0,2,1], [0,-2,1],[0,-2,-1],[0,2,-1],  # point in yz-plane
+        [0,1,2], [0,-1,2],[0,-1,-2],[0,1,-2],  # point in yz-plane
+        ]
+    shape = openscadHull(vertices)
+    shape = solid.scale(size/2)(shape)
+    return shape
+
 def truncated_tetrahedron(radius, top_face='edge'):
     '''Creates a truncated tetrahedron
         1) Centered at the origin
