@@ -129,7 +129,7 @@ def truncated_cuboctahedron(size=50):
         [0,1,2], [0,-1,2],[0,-1,-2],[0,1,-2],  # point in yz-plane
         ]
     shape = openscadHull(vertices)
-    shape = solid.scale(size/2)(shape)
+    shape = solid.scale(size/4)(shape)
     return shape
 
 def truncated_tetrahedron(radius, top_face='edge'):
