@@ -132,6 +132,14 @@ def truncated_cuboctahedron(size=50):
     shape = solid.scale(size/4)(shape)
     return shape
 
+def rounded_cube(size=50):
+    '''Creates a rounded cube
+        1) Centered at the origin
+        2) Angle of attack is 30 degrees for the transition from cube face to sphere.
+    '''
+    shape = solid.intersection()(solid.cube(size,center=True), solid.sphere(size*3**-.5))
+    return shape
+
 def truncated_tetrahedron(radius, top_face='edge'):
     '''Creates a truncated tetrahedron
         1) Centered at the origin
