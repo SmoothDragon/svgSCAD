@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import solid as sd
+import solid2 as sd
 import numpy as np
 import pathlib
 import tempfile
@@ -90,7 +90,7 @@ class scadSVG:
         return '\n'.join(svg_lines)
 
 
-import solid as sd
+import solid2 as sd
 
 
 # Useful 2D functions
@@ -149,8 +149,8 @@ def pentagram(R):
     base = sd.union()(*[sd.rotate([0,0,i*360/pieces])(wedge) for i in range(pieces)])
 
 def hexagram(R):
-    wedge = sd.circle(R, segments=3)
-    wedge += sd.rotate([0,0,180])(wedge),
+    wedge = sd.circle(R, _fn=3)
+    wedge += sd.rotate(180)(wedge)
     return wedge
 
 if __name__ == '__main__':

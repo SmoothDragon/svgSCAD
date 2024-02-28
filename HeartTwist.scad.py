@@ -21,22 +21,31 @@ def koch_snowflake(R, pieces=6, iterations=3):
     base = sd.rotate(30)(base)
     return base
 
-def perimeter(shape, r, segments=6):
+def perimeter(shape, r, segments=64):
     border = sd.circle(r=r, _fn=segments)
     final = sd.minkowski()(shape, border)
     final -= shape
     return final
 
+def heart(R):
+    center = sd.square(R, center=True)
+    curve = sd.circle(d=R)
+    center += sd.translate([R/2,0])(curve)
+    center += sd.translate([0,R/2])(curve)
+    center = sd.rotate(45)(center)
+    center = sd.translate([0,-R/8])(center)
+    return center
+
 def ring(R, r, height, twist, slices, scale):
-    koch = koch_snowflake(R, iterations=0)
+    koch = heart(R)
     koch = perimeter(koch, r)
     graphic = sd.linear_extrude(height=10, twist=twist, slices=slices, scale=scale)(koch)
-    graphic += sd.rotate([180,0,0])(graphic)
+    graphic += sd.rotate([180,0,180])(graphic)
     return graphic
 
 if __name__ == '__main__':
     R = 62
-    fn = 6
+    fn = 45
     twist = 15
     slices=50
     scale=.8
