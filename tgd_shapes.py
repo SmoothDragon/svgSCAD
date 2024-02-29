@@ -2,10 +2,9 @@
 
 from __future__ import division
 
-import solid
+import solid2 as solid
 import scipy.spatial
 
-from solid.utils import degrees
 from math import atan, sqrt
 import numpy as np
 from typing import *

@@ -3,7 +3,7 @@
 '''Prime radiant model
 '''
 
-import solid as sd
+import solid2 as sd
 import numpy as np
 import svgSCAD as svg
 import tgd_shapes as tgd
@@ -23,7 +23,15 @@ if __name__ == '__main__':
     pieces.append( [[0,0,0], [-unit,unit,0], [unit,0,0], [0,unit,0], [-unit,unit,unit]])
     pieces.append( [[0,0,0], [unit,0,0], [0,unit,0], [0,unit,unit]])
     
-    final = sd.union()(*[sd.translate(p)(v) for p in pieces[5]])
+    pieces = [sd.union()(*[sd.translate(p)(v) for p in piece]) for piece in pieces]
+    # final = sd.union()(*[sd.translate(p)(v) for p in pieces[5]])
+    final = pieces[0]
+    final += sd.translate([3*unit,unit,0])(sd.rotate([0,0,180])(pieces[1]))
+    final += sd.translate([-3*unit,unit,0])(sd.rotate([180,0,0])(pieces[2]))
+    final += sd.translate([-3*unit,3*unit,0])(sd.rotate([0,0,0])(pieces[3]))
+    final += sd.translate([0,3*unit,0])(sd.rotate([0,0,0])(pieces[4]))
+    final += sd.translate([3*unit,3*unit,0])(sd.rotate([0,0,0])(pieces[5]))
+    # final += sd.translate([3*unit,unit,0])(pieces[1])
     print(sd.scad_render(final, file_header=f'$fn={fn};'))
 
     # print(svg.scadSVG(final, fn=fn, fill='blue')) #+svg.scadSVG(image2, fn=fn, fill='lightgreen'))
