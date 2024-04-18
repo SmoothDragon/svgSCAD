@@ -15,6 +15,7 @@ if __name__ == '__main__':
 
     unit = 20
     v = tgd.truncated_cuboctahedron(unit)
+    v = tgd.cuboctahedron(unit)
     pieces = []
     pieces.append( [[0,0,0], [-unit,0,0], [unit,0,0], [0,unit,0], [0,unit,unit]])
     pieces.append( [[0,0,0], [-unit,0,0], [unit,0,0], [0,unit,0], ])
@@ -31,8 +32,7 @@ if __name__ == '__main__':
     final += sd.translate([-3*unit,3*unit,0])(sd.rotate([0,0,0])(pieces[3]))
     final += sd.translate([0,3*unit,0])(sd.rotate([0,0,0])(pieces[4]))
     final += sd.translate([3*unit,3*unit,0])(sd.rotate([0,0,0])(pieces[5]))
-    # Replace single wrong piece
-    # final = pieces[4]
+    # final += sd.translate([3*unit,unit,0])(pieces[1])
     print(sd.scad_render(final, file_header=f'$fn={fn};'))
 
     # print(svg.scadSVG(final, fn=fn, fill='blue')) #+svg.scadSVG(image2, fn=fn, fill='lightgreen'))
