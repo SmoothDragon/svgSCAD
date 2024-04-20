@@ -98,7 +98,7 @@ import solid2 as sd
 def halfPlane(direction, D=1000):
     r'''Create a 2D half plane. Choose D large enough to be "infinity".
     >>> sd.scad_render(halfPlane('N'))
-    '\n\ntranslate(v = [0, 1000]) {\n\tsquare(center = true, size = 2000);\n}'
+    'translate(v = [0, 1000]) {\n\tsquare(center = true, size = 2000);\n}\n'
     '''
     planetype = {
         'N':( 0,  D),
